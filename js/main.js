@@ -228,12 +228,17 @@
                     const img = entry.target;
 
                     // Add fade-in effect
-                    img.style.opacity = '0';
                     img.style.transition = 'opacity 0.3s ease';
 
-                    img.onload = function() {
+                    // Check if image is already loaded (cached)
+                    if (img.complete && img.naturalHeight !== 0) {
                         img.style.opacity = '1';
-                    };
+                    } else {
+                        img.style.opacity = '0';
+                        img.onload = function() {
+                            img.style.opacity = '1';
+                        };
+                    }
 
                     observer.unobserve(img);
                 }
